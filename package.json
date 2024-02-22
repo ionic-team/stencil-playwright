@@ -1,0 +1,52 @@
+{
+  "name": "@stencil/playwright",
+  "version": "0.1.0",
+  "description": "Testing adapter to use Playwright with Stencil",
+  "main": "index.js",
+  "scripts": {
+    "format": "prettier --write \"src/**/*.ts\"",
+    "lint": "eslint \"src/**/*.ts\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ionic-team/stencil-playwright.git"
+  },
+  "keywords": [
+    "stencil",
+    "playwright",
+    "testing"
+  ],
+  "author": "Stencil Team",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ionic-team/stencil-playwright/issues"
+  },
+  "homepage": "https://github.com/ionic-team/stencil-playwright#readme",
+  "engines": {
+    "node": ">=12.0.0",
+    "npm": ">=6.0.0"
+  },
+  "volta": {
+    "node": "20.11.1",
+    "npm": "10.4.0"
+  },
+  "peerDependencies": {
+    "@stencil/core": ">= 4.0.0"
+  },
+  "devDependencies": {
+    "@ionic/prettier-config": "^4.0.0",
+    "@stencil/core": "^4.12.3",
+    "@types/eslint": "^8.56.2",
+    "@types/node": "^20.11.19",
+    "@typescript-eslint/eslint-plugin": "^7.0.2",
+    "@typescript-eslint/parser": "^7.0.2",
+    "eslint": "^8.56.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-jsdoc": "^48.2.0",
+    "eslint-plugin-simple-import-sort": "^12.0.0",
+    "eslint-plugin-unused-imports": "^3.1.0",
+    "prettier": "^3.2.5",
+    "typescript": "^5.3.3"
+  },
+  "prettier": "@ionic/prettier-config"
+}
