@@ -31,11 +31,13 @@
     "npm": "10.4.0"
   },
   "peerDependencies": {
-    "@stencil/core": ">= 4.0.0"
+    "@playwright/test": ">=1.41.2",
+    "@stencil/core": "file:stencil-core-4.12.3.tgz"
   },
   "devDependencies": {
     "@ionic/prettier-config": "^4.0.0",
-    "@stencil/core": "^4.12.3",
+    "@playwright/test": "^1.41.2",
+    "@stencil/core": "file:stencil-core-4.12.3.tgz",
     "@types/eslint": "^8.56.2",
     "@types/node": "^20.11.19",
     "@typescript-eslint/eslint-plugin": "^7.0.2",
