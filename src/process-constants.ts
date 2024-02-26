@@ -1,0 +1,4 @@
+export enum ProcessConstants {
+  STENCIL_NAMESPACE = 'STENCIL_NAMESPACE',
+  STENCIL_ENTRY_PATH = 'STENCIL_ENTRY_PATH',
+}

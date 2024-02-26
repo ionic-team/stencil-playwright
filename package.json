@@ -32,12 +32,12 @@
   },
   "peerDependencies": {
     "@playwright/test": ">=1.41.2",
-    "@stencil/core": "file:stencil-core-4.12.3.tgz"
+    "@stencil/core": "4.12.3-dev.1708704601.92c8821"
   },
   "devDependencies": {
     "@ionic/prettier-config": "^4.0.0",
     "@playwright/test": "^1.41.2",
-    "@stencil/core": "file:stencil-core-4.12.3.tgz",
+    "@stencil/core": "4.12.3-dev.1708704601.92c8821",
     "@types/eslint": "^8.56.2",
     "@types/node": "^20.11.19",
     "@typescript-eslint/eslint-plugin": "^7.0.2",
@@ -50,5 +50,8 @@
     "prettier": "^3.2.5",
     "typescript": "^5.3.3"
   },
-  "prettier": "@ionic/prettier-config"
+  "prettier": "@ionic/prettier-config",
+  "dependencies": {
+    "glob": "^10.3.10"
+  }
 }

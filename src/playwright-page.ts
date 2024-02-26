@@ -11,6 +11,7 @@ import { initPageEvents } from './page/event-spy';
 import type { LocatorOptions } from './page/utils';
 import { goto as goToPage, locator, setContent, spyOnEvent, waitForChanges } from './page/utils';
 import type { BrowserNameOrCallback, E2EPage, E2EPageOptions, E2ESkip } from './playwright-declarations';
+import { ProcessConstants } from './process-constants.js';
 
 type CustomTestArgs = PlaywrightTestArgs &
   PlaywrightTestOptions &
@@ -29,19 +30,17 @@ type CustomFixtures = {
  * @param page The page to extend.
  * @returns The modified playwright page with extended functionality.
  */
-export async function extendPageFixture(page: E2EPage) {
+async function extendPageFixture(page: E2EPage) {
   // Make sure the Stencil namespace and entry path are set on the process so we can use them in the tests
   // These wouldn't be set if the user didn't setup the Playwright config with the `createStencilPlaywrightConfig` function.
-  //
-  // TODO: move variables to constants
-  if (!process.env.STENCIL_NAMESPACE || !process.env.STENCIL_ENTRY_PATH) {
+  if (!process.env[ProcessConstants.STENCIL_NAMESPACE] || !process.env[ProcessConstants.STENCIL_ENTRY_PATH]) {
     const { stencilNamespace, stencilEntryPath } = await loadConfigMeta();
 
-    if (!process.env.STENCIL_NAMESPACE) {
-      process.env.STENCIL_NAMESPACE = stencilNamespace;
+    if (!process.env[ProcessConstants.STENCIL_NAMESPACE]) {
+      process.env[ProcessConstants.STENCIL_NAMESPACE] = stencilNamespace;
     }
-    if (!process.env.STENCIL_ENTRY_PATH) {
-      process.env.STENCIL_ENTRY_PATH = stencilEntryPath;
+    if (!process.env[ProcessConstants.STENCIL_ENTRY_PATH]) {
+      process.env[ProcessConstants.STENCIL_ENTRY_PATH] = stencilEntryPath;
     }
   }
 
