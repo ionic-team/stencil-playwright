@@ -1,2 +1,6 @@
 node_modules/
 **/*.tgz
+
+# Build Output
+dist/
+build/build.js
