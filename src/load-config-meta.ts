@@ -7,7 +7,9 @@ import { relative } from 'path';
 const DEFAULT_NAMESPACE = 'app';
 const DEFAULT_BASE_URL = 'http://localhost:3333';
 const DEFAULT_WEB_SERVER_URL = `${DEFAULT_BASE_URL}/ping`;
-const DEFAULT_STENCIL_ENTRY_PATH = `./build/${DEFAULT_NAMESPACE}`;
+
+const DEFAULT_STENCIL_ENTRY_PATH_PREFIX = './build';
+const DEFAULT_STENCIL_ENTRY_PATH = `${DEFAULT_STENCIL_ENTRY_PATH_PREFIX}/${DEFAULT_NAMESPACE}`;
 
 /**
  * For internal use only.
@@ -48,6 +50,9 @@ export const loadConfigMeta = async () => {
 
       stencilEntryPath = `${relativePath}/build/${fsNamespace}`;
     } else {
+      // Make a best guess at the entry path
+      stencilEntryPath = `${DEFAULT_STENCIL_ENTRY_PATH_PREFIX}/${fsNamespace}`;
+
       console.warn(
         'No "www" output target found in the Stencil config. Using default entry path. Tests using `setContent` may fail to execute.',
       );

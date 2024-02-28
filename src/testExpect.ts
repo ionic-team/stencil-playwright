@@ -3,6 +3,7 @@ interface CustomMatchers<R = unknown> {
    * Will check if the event spy received the expected event.
    */
   toHaveReceivedEvent(): R;
+
   /**
    * Will check if the event spy received the expected event with the expected detail.
    * @param eventDetail The expected detail of the event.
@@ -15,6 +16,10 @@ interface CustomMatchers<R = unknown> {
   toHaveReceivedEventTimes(count: number): R;
 }
 
-declare namespace PlaywrightTest {
-  interface Matchers<R> extends CustomMatchers<R> {}
+declare global {
+  namespace PlaywrightTest {
+    interface Matchers<R> extends CustomMatchers<R> {}
+  }
 }
+
+export {};
