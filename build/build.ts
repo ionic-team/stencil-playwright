@@ -4,7 +4,7 @@ async function build() {
   const baseOptions: esbuild.BuildOptions = {
     bundle: true,
     entryPoints: ['src/index.ts'],
-    external: ['@playwright/test', '@stencil/core', 'fs', 'path'],
+    external: ['@playwright/test', '@stencil/core'],
     platform: 'node',
     sourcemap: 'linked',
     target: 'node16',
