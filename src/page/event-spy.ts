@@ -43,7 +43,6 @@ export class EventSpy {
        */
       let resolve: () => void;
       const promise = new Promise<void>((r) => (resolve = r));
-      // @ts-ignore
       this.queuedHandler.push(resolve);
 
       return promise.then(() => this.events[cursor]);

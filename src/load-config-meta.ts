@@ -39,7 +39,7 @@ export const loadConfigMeta = async () => {
 
     // Grab the WWW output target. If one doesn't exist, we'll throw a warning and roll
     // with the default value for the entry path.
-    const wwwTarget = outputTargets.find((o) => o.type === 'www') as OutputTargetWww;
+    const wwwTarget = outputTargets.find((o): o is OutputTargetWww => o.type === 'www');
     if (wwwTarget) {
       // Get path from dev-server root to www
       let relativePath = relative(devServer.root!, wwwTarget.dir!);
@@ -54,13 +54,19 @@ export const loadConfigMeta = async () => {
       stencilEntryPath = `${DEFAULT_STENCIL_ENTRY_PATH_PREFIX}/${fsNamespace}`;
 
       console.warn(
-        'No "www" output target found in the Stencil config. Using default entry path. Tests using `setContent` may fail to execute.',
+        `No "www" output target found in the Stencil config. Using default entry path: "${stencilEntryPath}". Tests using 'setContent' may fail to execute.`,
       );
     }
 
     baseURL = `${devServer.protocol}://${devServer.address}:${devServer.port}`;
     webServerUrl = `${baseURL}${devServer.pingRoute ?? ''}`;
     stencilNamespace = fsNamespace;
+  } else {
+    const msg = stencilConfigPath
+      ? `Unable to find your project's Stencil configuration file, starting from '${stencilConfigPath}'. Falling back to defaults`
+      : `No Stencil config file was found using the glob '${process.cwd()}/stencil.config.{ts,js}'`;
+
+    console.warn(msg);
   }
 
   return {
