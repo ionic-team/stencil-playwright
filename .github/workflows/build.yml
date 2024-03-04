@@ -24,3 +24,10 @@ jobs:
       - name: Stencil Playwright Build
         run: npm run build
         shell: bash
+
+      - name: Upload Build Artifacts
+        uses: ./.github/workflows/actions/upload-archive
+        with:
+          name: stencil-playwright
+          output: stencil-playwright-build.zip
+          paths: dist/
