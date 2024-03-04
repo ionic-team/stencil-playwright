@@ -56,5 +56,7 @@ export const setContent = async (page: Page, html: string, testInfo: TestInfo, o
     });
 
     await page.goto(`${baseUrl}#`, options);
+  } else {
+    throw new Error('setContent unavailable: no dev server base URL provided');
   }
 };

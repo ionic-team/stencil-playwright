@@ -12,6 +12,8 @@ import type { E2EPageOptions } from '../../playwright-declarations';
 export const goto = async (page: Page, url: string, originalFn: typeof page.goto, options?: E2EPageOptions) => {
   const result = await Promise.all([
     page.waitForFunction(() => (window as any).testAppLoaded === true, {
+      // This timeout was taken from the existing Playwright adapter in the Ionic Framework repository.
+      // They tested this number and found it to be a reliable timeout for the Stencil components to be hydrated.
       timeout: 4750,
     }),
     originalFn(url.split('?')[0], options),
