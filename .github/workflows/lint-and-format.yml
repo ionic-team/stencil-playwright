@@ -1,0 +1,25 @@
+name: Lint and Format Stencil Playwright
+
+on:
+  merge_group:
+  workflow_call:
+    # Make this a reusable workflow, no value needed
+    # https://docs.github.com/en/actions/using-workflows/reusing-workflows
+
+jobs:
+  format:
+    name: Check
+    runs-on: 'ubuntu-22.04'
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+
+      - name: Get Core Dependencies
+        uses: ./.github/workflows/actions/get-core-dependencies
+
+      - name: ESLint
+        run: npm run lint
+
+      - name: Prettier Check
+        run: npm run format.dry-run
+        shell: bash
