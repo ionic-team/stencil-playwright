@@ -6,8 +6,9 @@ import type { HostElement } from '@stencil/core/internal';
  * Used for testing changes to a web component that does not modify CSS classes or introduce new DOM nodes.
  *
  * Original source: https://github.com/ionic-team/stencil/blob/main/src/testing/puppeteer/puppeteer-page.ts#L298-L363
- * @param page
- * @param timeoutMs
+ *
+ * @param page The Playwright page object.
+ * @param timeoutMs The time to wait for the changes to occur.
  */
 export const waitForChanges = async (page: Page, timeoutMs = 100) => {
   try {
@@ -40,7 +41,6 @@ export const waitForChanges = async (page: Page, timeoutMs = 100) => {
                  * here so we can safely use the
                  * componentOnReady method.
                  */
-                // eslint-disable-next-line custom-rules/no-component-on-ready-method
                 promises.push(childStencilElm.componentOnReady());
               }
               waitComponentOnReady(childElm, promises);

@@ -3,18 +3,13 @@ import type { JSHandle } from '@playwright/test';
 import type { E2EPage } from '../playwright-declarations';
 
 /**
- * The EventSpy class allows
- * developers to listen for
- * a particular event emission and
- * pass/fail the test based on whether
- * or not the event was emitted.
+ * The EventSpy class allows developers to listen for a particular event emission and
+ * pass/fail the test based on whether or not the event was emitted.
  * Based off https://github.com/ionic-team/stencil/blob/16b8ea4dabb22024872a38bc58ba1dcf1c7cc25b/src/testing/puppeteer/puppeteer-events.ts#L64
  */
 export class EventSpy {
   /**
-   * Keeping track of a cursor
-   * ensures that no two spy.next()
-   * calls point to the same event.
+   * Keeping track of a cursor ensures that no two spy.next() calls point to the same event.
    */
   private cursor = 0;
   private queuedHandler: (() => void)[] = [];
@@ -43,11 +38,8 @@ export class EventSpy {
       return Promise.resolve(next);
     } else {
       /**
-       * If the event has not already been
-       * emitted, then add it to the queuedHandler.
-       * When the event is emitted, the push
-       * method is called which results in the
-       * Promise below being resolved.
+       * If the event has not already been emitted, then add it to the queuedHandler.
+       * When the event is emitted, the push method is called which results in the Promise below being resolved.
        */
       let resolve: () => void;
       const promise = new Promise<void>((r) => (resolve = r));
@@ -68,13 +60,11 @@ export class EventSpy {
 }
 
 /**
- * Initializes information required to
- * spy on events.
- * The ionicOnEvent function is called in the
- * context of the current page. This lets us
- * respond to an event listener created within
- * the page itself.
- * @param page
+ * Initializes information required to spy on events.
+ * The ionicOnEvent function is called in the context of the current page.
+ * This lets us respond to an event listener created within the page itself.
+ *
+ * @param page The Playwright test page object.
  */
 export const initPageEvents = async (page: E2EPage) => {
   page._e2eEventsIds = 0;
@@ -89,13 +79,13 @@ export const initPageEvents = async (page: E2EPage) => {
 };
 
 /**
- * Adds a new event listener in the current
- * page context to updates the _e2eEvents map
- * when an event is fired.
- * @param page
- * @param elmHandle
- * @param eventName
- * @param callback
+ * Adds a new event listener in the current page context to updates
+ * the _e2eEvents map when an event is fired.
+ *
+ * @param page The Playwright test page object.
+ * @param elmHandle A {@link JSHandle} representing the element to listen for events on.
+ * @param eventName The event name to listen for.
+ * @param callback The callback to execute when the event is fired.
  */
 export const addE2EListener = async (
   page: E2EPage,

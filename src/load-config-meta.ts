@@ -16,7 +16,7 @@ const DEFAULT_STENCIL_ENTRY_PATH = `${DEFAULT_STENCIL_ENTRY_PATH_PREFIX}/${DEFAU
  *
  * Loads and validates the project's Stencil config.
  *
- * @returns The processed Stencil config meta data.
+ * @returns The processed Stencil config metadata.
  */
 export const loadConfigMeta = async () => {
   let baseURL = DEFAULT_BASE_URL;
