@@ -1,0 +1,4 @@
+{
+  "ignorePaths": ["**/node_modules/**", "**/third-party/**"],
+  "words": ["appload", "domcontentloaded", "networkidle", "outfile"]
+}
