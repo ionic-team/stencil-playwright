@@ -13,7 +13,9 @@
     "build.empty": "rm -rf ./dist && rm -f ./build/build.js",
     "build.types": "tsc --emitDeclarationOnly --outDir ./dist",
     "build.bundle": "tsc ./build/build.ts && node ./build/build.js",
-    "format": "prettier --write \"src/**/*.ts\"",
+    "format": "npm run format.base -- --write",
+    "format.base": "prettier --cache \"src/**/*.ts\"",
+    "format.dry-run": "npm run format.base -- --list-different",
     "lint": "eslint \"src/**/*.ts\""
   },
   "repository": {
