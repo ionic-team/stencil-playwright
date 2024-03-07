@@ -2,8 +2,17 @@
   "name": "@stencil/playwright",
   "version": "0.1.0",
   "description": "Testing adapter to use Playwright with Stencil",
-  "main": "index.js",
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "scripts": {
+    "build": "npm run build.empty && npm run build.types && npm run build.bundle",
+    "build.empty": "rm -rf ./dist && rm -f ./build/build.js",
+    "build.types": "tsc --emitDeclarationOnly --outDir ./dist",
+    "build.bundle": "tsc ./build/build.ts && node ./build/build.js",
     "format": "prettier --write \"src/**/*.ts\"",
     "lint": "eslint \"src/**/*.ts\""
   },
@@ -42,6 +51,7 @@
     "@types/node": "^20.11.19",
     "@typescript-eslint/eslint-plugin": "^7.0.2",
     "@typescript-eslint/parser": "^7.0.2",
+    "esbuild": "^0.20.1",
     "eslint": "^8.56.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-jsdoc": "^48.2.0",
