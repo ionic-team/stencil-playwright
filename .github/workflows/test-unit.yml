@@ -1,0 +1,32 @@
+name: Unit Tests
+
+on:
+  workflow_call:
+    # Make this a reusable workflow, no value needed
+    # https://docs.github.com/en/actions/using-workflows/reusing-workflows
+    inputs:
+      build_name:
+        description: Name for the build, used to resolve the correct build artifact
+        required: true
+        type: string
+
+jobs:
+  unit_test:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+
+      - name: Get Core Dependencies
+        uses: ./.github/workflows/actions/get-core-dependencies
+
+      - name: Download Build Archive
+        uses: ./.github/workflows/actions/download-archive
+        with:
+          name: ${{ inputs.build_name }}
+          path: .
+          filename: stencil-playwright-build.zip
+
+      - name: Unit Tests
+        run: npm run test
+        shell: bash

@@ -16,7 +16,8 @@
     "format": "npm run format.base -- --write",
     "format.base": "prettier --cache \"src/**/*.ts\"",
     "format.dry-run": "npm run format.base -- --list-different",
-    "lint": "eslint \"src/**/*.ts\""
+    "lint": "eslint \"src/**/*.ts\"",
+    "test": "echo Testing 123"
   },
   "repository": {
     "type": "git",
