@@ -17,7 +17,8 @@
     "format.base": "prettier --cache \"src/**/*.ts\"",
     "format.dry-run": "npm run format.base -- --list-different",
     "lint": "eslint \"src/**/*.ts\"",
-    "test": "echo Testing 123"
+    "test": "echo Testing 123",
+    "spellcheck": "cspell --no-progress \"src/**/*.ts\" \"build/**/*.ts\" \"*.md\""
   },
   "repository": {
     "type": "git",
@@ -54,6 +55,7 @@
     "@types/node": "^20.11.19",
     "@typescript-eslint/eslint-plugin": "^7.0.2",
     "@typescript-eslint/parser": "^7.0.2",
+    "cspell": "^8.6.0",
     "esbuild": "^0.20.1",
     "eslint": "^8.56.0",
     "eslint-config-prettier": "^9.1.0",
