@@ -61,7 +61,7 @@ describe('loadConfigMeta', () => {
     const configMeta = await loadConfigMeta();
 
     expect(consoleWarnSpy).toHaveBeenCalledWith(
-      'No "www" output target found in the Stencil config. Using default entry path. Tests using `setContent` may fail to execute.',
+      `No "www" output target found in the Stencil config. Using default entry path: "./build/mock-namespace". Tests using 'setContent' may fail to execute.`,
     );
     expect(configMeta).toEqual({
       baseURL: 'http://localhost:4444',
