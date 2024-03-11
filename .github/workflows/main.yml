@@ -1,0 +1,30 @@
+name: CI
+
+on:
+  merge_group:
+  push:
+    branches:
+      - 'main'
+  pull_request:
+    branches:
+      - '**'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build_playwright:
+    name: Build
+    uses: ./.github/workflows/build.yml
+
+  lint_and_format:
+    name: Lint and Format
+    uses: ./.github/workflows/lint-and-format.yml
+
+  unit_tests:
+    name: Unit Tests
+    needs: [build_playwright]
+    uses: ./.github/workflows/test-unit.yml
+    with:
+      build_name: stencil-playwright
