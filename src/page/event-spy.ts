@@ -60,8 +60,10 @@ export class EventSpy {
 }
 
 /**
+ * For internal use only.
+ *
  * Initializes information required to spy on events.
- * The ionicOnEvent function is called in the context of the current page.
+ * The stencilOnEvent function is called in the context of the current page.
  * This lets us respond to an event listener created within the page itself.
  *
  * @param page The Playwright test page object.
@@ -70,7 +72,7 @@ export const initPageEvents = async (page: E2EPage) => {
   page._e2eEventsIds = 0;
   page._e2eEvents = new Map();
 
-  await page.exposeFunction('ionicOnEvent', (id: number, ev: any) => {
+  await page.exposeFunction('stencilOnEvent', (id: number, ev: any) => {
     const context = page._e2eEvents.get(id);
     if (context) {
       context.callback(ev);
@@ -79,6 +81,8 @@ export const initPageEvents = async (page: E2EPage) => {
 };
 
 /**
+ * For internal use only.
+ *
  * Adds a new event listener in the current page context to updates
  * the _e2eEvents map when an event is fired.
  *
@@ -149,7 +153,7 @@ export const addE2EListener = async (
       };
 
       elm.addEventListener(eventName as string, (ev: Event) => {
-        (window as any).ionicOnEvent(id, (window as any).serializeStencilEvent(ev));
+        (window as any).stencilOnEvent(id, (window as any).serializeStencilEvent(ev));
       });
     },
     [eventName, id],
