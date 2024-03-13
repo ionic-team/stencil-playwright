@@ -4,3 +4,6 @@ node_modules/
 # Build Output
 dist/
 build/build.js
+
+# IDE-specific files
+.idea/
