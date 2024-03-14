@@ -68,8 +68,8 @@ tags pointing to the Stencil entry code (so all web components are correctly loa
     <meta charset="utf8" />
 
     <!-- Replace with the path to your entrypoint -->
-    <script src="./build/testapp.esm.js" type="module"></script>
-    <script src="./build/testapp.js" nomodule></script>
+    <script src="./build/test-app.esm.js" type="module"></script>
+    <script src="./build/test-app.js" nomodule></script>
   </head>
   <body>
     <my-component first="Stencil"></my-component>
