@@ -1,4 +1,4 @@
-import { PlaywrightTestConfig } from '@playwright/test';
+import { defineConfig, PlaywrightTestConfig } from '@playwright/test';
 
 import { loadConfigMeta } from './load-config-meta';
 import { ProcessConstants } from './process-constants';
@@ -48,7 +48,7 @@ export const createStencilPlaywrightConfig = async (
   delete playwrightOverrides.webServerCommand;
   delete playwrightOverrides.webServerTimeout;
 
-  return {
+  return defineConfig({
     testMatch: '*.e2e.ts',
     use: {
       baseURL,
@@ -61,5 +61,5 @@ export const createStencilPlaywrightConfig = async (
       timeout: overrides?.webServerTimeout ?? undefined,
     },
     ...playwrightOverrides,
-  };
+  });
 };
