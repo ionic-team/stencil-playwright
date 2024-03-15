@@ -17,13 +17,13 @@ on:
           - major
 
 jobs:
-  build-stencil-playwright:
+  build_stencil_playwright:
     name: Build
     uses: ./.github/workflows/build.yml
 
   create_request:
     name: Generate Stencil Playwright Release PR
-    requires: [build-stencil-playwright],
+    requires: [build_stencil_playwright]
     runs-on: ubuntu-latest
     steps:
       # Log the input from GitHub Actions for easy traceability
