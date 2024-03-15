@@ -54,8 +54,8 @@ export interface E2EPage extends Page {
    * [upstream issue](https://bugs.chromium.org/p/chromium/issues/detail?id=761295).
    *
    * Shortcut for main frame's [frame.goto(url[, options])](https://playwright.dev/docs/api/class-frame#frame-goto)
-   * @param url URL to navigate page to. The url should include scheme, e.g. `https://`. When a `baseURL` via the context options was provided and the passed URL is a path, it gets merged via the
-   * [`new URL()`](https://developer.mozilla.org/en-US/docs/Web/API/URL/URL) constructor.
+   * @param url URL to navigate page to. The url should include scheme, e.g. `https://`. When a `baseURL` via the context options was
+   * provided and the passed URL is a path, it gets merged via the [`new URL()`](https://developer.mozilla.org/en-US/docs/Web/API/URL/URL) constructor.
    */
   goto: (url: string, options?: E2EPageOptions) => Promise<null | Response>;
 
@@ -83,10 +83,8 @@ export interface E2EPage extends Page {
    */
   waitForChanges: (timeoutMs?: number) => Promise<void>;
   /**
-   * Creates a new EventSpy and listens
-   * on the window for an event.
-   * The test will timeout if the event
-   * never fires.
+   * Creates a new EventSpy and listens on the window for an event.
+   * The test will timeout if the event never fires.
    *
    * Usage:
    * ```ts
