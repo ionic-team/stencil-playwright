@@ -21,9 +21,9 @@ jobs:
     name: Build
     uses: ./.github/workflows/build.yml
 
-  build_stencil_playwright2:
+  create_stencil_playwright_release_pr:
     name: Generate Stencil Playwright Release PR
-    requires: [build_stencil_playwright]
+    needs: [build_stencil_playwright]
     runs-on: ubuntu-latest
     steps:
       # Log the input from GitHub Actions for easy traceability
