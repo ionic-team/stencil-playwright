@@ -10,6 +10,23 @@ Production Releases (or "Prod Releases", "Prod Builds") are installable instance
 
 Only members of the Stencil team may create prod builds of Stencil Playwright.
 To publish the package:
+
+1. Call a `code-freeze` on this project in the Stencil team channel
+1. Check that [the Merge Queue](https://github.com/ionic-team/stencil-playwright/queue/) is empty (nothing is queued for merge).
+1. Navigate to the [Create Production Release PR GitHub Action](https://github.com/ionic-team/stencil-playwright/actions/workflows/create-production-pr.yml) in your browser.
+1. Select the 'Run Workflow' dropdown on the right hand side of the page
+1. The dropdown will ask you which branch to use the workflow from and which version should be published.
+     1. Choose 'main' for the branch name.
+     1. Stencil Playwright follows semantic versioning.  Review the changes on `main` and select the most appropriate release type.
+1. Hit "Run Workflow"
+1. Navigate to the pull request that was opened as a result of running the release PR creation workflow.
+1. Complete the following (temporary) steps:
+   1. Close the pull request and reopen it. This allows actions that the team gates pull requests on to run.
+   1. Mark the pull request as ready for review.
+1. Ask the Stencil team for an approval on the PR.
+   Only one approval is required for pull requests that only include the version bump/prerelease commit.
+1. Once approved, add it to the merge queue.
+1. ⚠️ Wait for the pull request to land before continuing to the next step. ⚠️
 1. Navigate to the [Stencil Playwright Prod Release GitHub Action](https://github.com/ionic-team/stencil-playwright/actions/workflows/release-prod.yml) in your browser.
 1. Select the 'Run Workflow' dropdown on the right hand side of the page
 1. The dropdown will ask you for a version type to publish.
