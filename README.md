@@ -33,8 +33,9 @@ For full documentation, please see the [Playwright testing docs on the official 
    export default createStencilPlaywrightConfig();
    ```
 
-1. At this point, any tests can be executed using `npx playwright test` (or by updating the project's test command). By default, Playwright's test matcher
-   is configured to run all tests matching the pattern `*.e2e.ts`. This can be changed by overriding the default matcher using the `createStencilPlaywrightConfig()`:
+1. At this point, any tests can be executed using `npx playwright test` (or by updating the project's test command in the `package.json`). By default, Playwright's test matcher
+   is configured to run all tests matching the pattern `*.e2e.ts`. This can be changed by overriding the default matcher using the
+   [`createStencilPlaywrightConfig()` function](#createstencilplaywrightconfigoverrides-createstencilplaywrightconfigoptions-promiseplaywrighttestconfig):
 
    ```ts
    // playwright.config.ts
@@ -84,7 +85,7 @@ import { expect } from '@playwright/test';
 import { test } from '@stencil/playwright';
 
 test.describe('my-component', () => {
-  test('should render the correct name', ({ page }) => {
+  test('should render the correct name', async ({ page }) => {
     // The path here is the path to the www output relative to the dev server root directory
     await page.goto('/my-component/my-component.e2e.html');
 
@@ -106,7 +107,7 @@ import { expect } from '@playwright/test';
 import { test } from '@stencil/playwright';
 
 test.describe('my-component', () => {
-  test('should render the correct name', ({ page }) => {
+  test('should render the correct name', async ({ page }) => {
     await page.setContent('<my-component first="Stencil"></my-component>');
 
     // Rest of test
@@ -123,7 +124,7 @@ Returns a [Playwright test configuration](https://playwright.dev/docs/test-confi
 `overrides`, as the name implies, will overwrite the default configuration value(s) if supplied. These values can include any valid Playwright config option as well
 as some options to override specific values in the config options related to the Stencil integration:
 
-- `webServerCommand`: This can be specified to change the command the will run to start the Stencil dev server. Defaults to `npm start -- --no-open`.
+- `webServerCommand`: This can be specified to change the command that will run to start the Stencil dev server. Defaults to `npm start -- --no-open`.
 - `webServerTimeout`: This can be specified to change the amount of time Playwright will wait for the dev server to start. Defaults to 60 seconds.
 
 ```ts
