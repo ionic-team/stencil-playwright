@@ -27,11 +27,11 @@ To publish the package:
    Only one approval is required for pull requests that only include the version bump/prerelease commit.
 1. Once approved, add it to the merge queue.
 1. ⚠️ Wait for the pull request to land before continuing to the next step. ⚠️
-1. Navigate to the [Stencil Playwright Prod Release GitHub Action](https://github.com/ionic-team/stencil-playwright/actions/workflows/release-prod.yml) in your browser.
+1. Navigate to the [Stencil Playwright Prod Release GitHub Action](https://github.com/ionic-team/stencil-playwright/actions/workflows/release-production.yml) in your browser.
 1. Select the 'Run Workflow' dropdown on the right hand side of the page
-1. The dropdown will ask you for a version type to publish.
-   Stencil Playwright follows semantic versioning.
-   Review the changes on `main` and select the most appropriate release type.
+1. The dropdown will ask you which tag to publish the project under.
+   For production releases, select 'latest'.
+   For testing the workflow itself, select 'dev'.
 1. Select 'Run Workflow'
 1. Allow the workflow to run. Upon completion, the output of the 'publish-npm' action will report the published version string.
 1. Navigate to the project's [Releases Page](https://github.com/ionic-team/stencil-playwright/releases)
