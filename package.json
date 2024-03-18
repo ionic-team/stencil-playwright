@@ -45,12 +45,12 @@
   },
   "peerDependencies": {
     "@playwright/test": ">=1.41.2",
-    "@stencil/core": "4.12.3-dev.1708704601.92c8821"
+    "@stencil/core": ">=4.13.0"
   },
   "devDependencies": {
     "@ionic/prettier-config": "^4.0.0",
     "@playwright/test": "^1.41.2",
-    "@stencil/core": "4.12.3-dev.1708704601.92c8821",
+    "@stencil/core": "^4.13.0",
     "@types/eslint": "^8.56.2",
     "@types/jest": "^29.5.12",
     "@types/node": "^20.11.19",
