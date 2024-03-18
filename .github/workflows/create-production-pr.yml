@@ -1,4 +1,4 @@
-name: 'Production Release (TEST)'
+name: 'Stencil Playwright Production Release PR Creation'
 
 on:
   workflow_dispatch:
