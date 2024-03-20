@@ -17,13 +17,8 @@ on:
           - major
 
 jobs:
-  build_stencil_playwright:
-    name: Build
-    uses: ./.github/workflows/build.yml
-
   create_stencil_playwright_release_pr:
     name: Generate Stencil Playwright Release PR
-    needs: [build_stencil_playwright]
     runs-on: ubuntu-latest
     steps:
       # Log the input from GitHub Actions for easy traceability
@@ -37,16 +32,6 @@ jobs:
 
       - name: Get Core Dependencies
         uses: ./.github/workflows/actions/get-core-dependencies
-
-      - name: Download Build Archive
-        uses: ./.github/workflows/actions/download-archive
-        with:
-          name: stencil-playwright
-          path: .
-          filename: stencil-playwright-build.zip
-
-      - name: Delete the Zip File
-        run: rm stencil-playwright-build.zip
 
       - name: Bump the Version
         run: npm version ${{ inputs.version }} --no-git-tag
