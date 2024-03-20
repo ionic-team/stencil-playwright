@@ -13,7 +13,7 @@ To publish the package:
 
 1. Call a `code-freeze` on this project in the Stencil team channel
 1. Check that [the Merge Queue](https://github.com/ionic-team/stencil-playwright/queue/) is empty (nothing is queued for merge).
-1. Navigate to the [Create Production Release PR GitHub Action](https://github.com/ionic-team/stencil-playwright/actions/workflows/create-production-pr.yml) in your browser.
+1. Navigate to the [Production Release PR Creation GitHub Action](https://github.com/ionic-team/stencil-playwright/actions/workflows/create-production-pr.yml) in your browser.
 1. Select the 'Run Workflow' dropdown on the right hand side of the page
 1. The dropdown will ask you which branch to use the workflow from and which version should be published.
      1. Choose 'main' for the branch name.
@@ -29,13 +29,17 @@ To publish the package:
 1. ⚠️ Wait for the pull request to land before continuing to the next step. ⚠️
 1. Navigate to the [Stencil Playwright Prod Release GitHub Action](https://github.com/ionic-team/stencil-playwright/actions/workflows/release-production.yml) in your browser.
 1. Select the 'Run Workflow' dropdown on the right hand side of the page
-1. The dropdown will ask you which tag to publish the project under.
-   For production releases, select 'latest'.
-   For testing the workflow itself, select 'dev'.
+1. The dropdown will ask you which git branch & tag to publish the project under.
+     1. Use the `main` branch, unless you're testing changes to the pipeline itself.
+        Note: Using a non-`main` branch does not necessarily mean changes to actions in non-`main` will be pulled!
+        Always use caution when making changes to actions this workflow uses.
+     2. For production releases, select 'latest'.
+        For testing the workflow itself, select 'dev'.
 1. Select 'Run Workflow'
 1. Allow the workflow to run. Upon completion, the output of the 'publish-npm' action will report the published version string.
 1. Navigate to the project's [Releases Page](https://github.com/ionic-team/stencil-playwright/releases)
 1. Select 'Draft a new release'
+1. You will need to create git tag for the version that was just published.
 1. Select the tag of the version you just created in the 'Choose a tag' dropdown
 1. Click "Generate release notes"
 1. Ensure this is the latest release

@@ -36,7 +36,11 @@ runs:
       shell: bash
 
     - name: Bump Version
-      run: npm version --no-git-tag-version ${{ inputs.version }}
+      # --allow-same-version is useful for cases when performing a production release, where we expect the version to
+      # have been bumped by running the Production PR Creation workflow first.
+      #
+      # TODO(STENCIL-1221): Push git tags to GitHub, only on Prod releases
+      run: npm version --no-git-tag-version ${{ inputs.version }} --allow-same-version
       shell: bash
 
     # Log the git diff for easy debugging
