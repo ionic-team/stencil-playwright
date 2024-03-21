@@ -1,5 +1,10 @@
 # @stencil/playwright
 
+> [!NOTE]
+> The Stencil Playwright adapter is currently an experimental package. Breaking changes may be introduced at any time.
+>
+> The Stencil Playwright adapter is designed to only work with **version 4.13.0 and higher** of Stencil!
+
 Stencil Playwright is a testing adapter package that allows developers to easily use the [Playwright testing framework](https://playwright.dev/docs/intro)
 in their Stencil project.
 
