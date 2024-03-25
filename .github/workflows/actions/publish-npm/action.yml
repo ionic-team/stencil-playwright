@@ -59,8 +59,6 @@ runs:
       env:
         NPM_TOKEN: ${{ inputs.token }}
 
-    # TODO(STENCIL-1206): Add --provenance flag to the command after we've made the repo public
-    # https://github.blog/changelog/2023-07-26-publishing-with-npm-provenance-from-private-source-repositories-is-no-longer-supported/
     - name: Publish to NPM
-      run: npm publish --tag ${{ inputs.tag }}
+      run: npm publish --tag ${{ inputs.tag }} --provenance
       shell: bash
