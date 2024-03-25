@@ -1,5 +1,8 @@
 # @stencil/playwright
 
+> [!WARNING]
+> This pacakge has not been released yet. Official release and documentation coming soon!
+
 > [!NOTE]
 > The Stencil Playwright adapter is currently an experimental package. Breaking changes may be introduced at any time.
 >
