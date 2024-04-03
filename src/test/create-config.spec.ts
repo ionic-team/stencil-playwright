@@ -24,6 +24,7 @@ describe('createStencilPlaywrightConfig', () => {
         url: 'http://localhost:3333/ping',
         reuseExistingServer: !process.env.CI,
         timeout: undefined,
+        stdout: 'pipe',
       },
     });
   });
@@ -45,6 +46,7 @@ describe('createStencilPlaywrightConfig', () => {
         url: 'http://localhost:3333/ping',
         reuseExistingServer: !process.env.CI,
         timeout: undefined,
+        stdout: 'pipe',
       },
     });
   });
