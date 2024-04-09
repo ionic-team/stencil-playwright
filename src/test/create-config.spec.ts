@@ -1,4 +1,4 @@
-import { createStencilPlaywrightConfig } from '../create-config';
+import { createConfig } from '../create-config';
 
 // Mock the loadConfigMeta function to just return the default values
 jest.mock('../load-config-meta', () => ({
@@ -10,9 +10,9 @@ jest.mock('../load-config-meta', () => ({
   }),
 }));
 
-describe('createStencilPlaywrightConfig', () => {
+describe('createConfig', () => {
   it('should create a default config', async () => {
-    const config = await createStencilPlaywrightConfig();
+    const config = await createConfig();
 
     expect(config).toEqual({
       testMatch: '*.e2e.ts',
@@ -29,7 +29,7 @@ describe('createStencilPlaywrightConfig', () => {
   });
 
   it('should override the default config', async () => {
-    const config = await createStencilPlaywrightConfig({
+    const config = await createConfig({
       webServerCommand: 'npm start -- --no-open --port 4444',
       testDir: 'tests/e2e',
     });

@@ -31,9 +31,7 @@ export type CreateStencilPlaywrightConfigOptions = Partial<PlaywrightTestConfig>
  * @param overrides Values to override in the default config. Any Playwright config option can be overridden.
  * @returns A {@link PlaywrightTestConfig} object
  */
-export const createStencilPlaywrightConfig = async (
-  overrides?: CreateStencilPlaywrightConfigOptions,
-): Promise<PlaywrightTestConfig> => {
+export const createConfig = async (overrides?: CreateStencilPlaywrightConfigOptions): Promise<PlaywrightTestConfig> => {
   const { webServerUrl, baseURL, stencilEntryPath, stencilNamespace } = await loadConfigMeta();
 
   // Set the Stencil namespace and entry path as environment variables so we can use them when constructing
