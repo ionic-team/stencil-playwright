@@ -58,7 +58,7 @@ export const loadConfigMeta = async () => {
     stencilNamespace = fsNamespace;
   } else {
     const msg = stencilConfigPath
-      ? `Unable to find your project's Stencil configuration file, starting from '${stencilConfigPath}'. Falling back to defaults`
+      ? `Unable to find your project's Stencil configuration file, starting from '${stencilConfigPath}'. Falling back to defaults.`
       : `No Stencil config file was found matching the glob 'stencil.config.{ts,js}' in the current or parent directories. Falling back to defaults.`;
 
     console.warn(msg);

@@ -19,8 +19,8 @@ const stencilConfig = {
   ],
 };
 
-jest.mock('glob', () => ({
-  globSync: () => ['/mock-path/stencil.config.ts'],
+jest.mock('find-up', () => ({
+  findUp: () => '/mock-path/stencil.config.ts',
 }));
 jest.mock('@stencil/core/compiler', () => ({
   loadConfig: () => ({
@@ -30,8 +30,13 @@ jest.mock('@stencil/core/compiler', () => ({
 
 describe('loadConfigMeta', () => {
   it('should return defaults if a config does not exist', async () => {
+    const consoleWarnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {});
+
     const configMeta = await loadConfigMeta();
 
+    expect(consoleWarnSpy).toHaveBeenCalledWith(
+      "Unable to find your project's Stencil configuration file, starting from '/mock-path/stencil.config.ts'. Falling back to defaults.",
+    );
     expect(configMeta).toEqual({
       baseURL: 'http://localhost:3333',
       stencilEntryPath: './build/app',
