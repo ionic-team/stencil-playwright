@@ -1,4 +1,5 @@
 import { PlaywrightTestConfig } from '@playwright/test';
+import merge from 'lodash.merge';
 
 import { loadConfigMeta } from './load-config-meta';
 import { ProcessConstants } from './process-constants';
@@ -21,21 +22,20 @@ export const createConfig = async (overrides?: Partial<PlaywrightTestConfig>): P
   process.env[ProcessConstants.STENCIL_NAMESPACE] = stencilNamespace;
   process.env[ProcessConstants.STENCIL_ENTRY_PATH] = stencilEntryPath;
 
-  return {
-    testMatch: '*.e2e.ts',
-    use: {
-      baseURL,
+  return merge(
+    {
+      testMatch: '*.e2e.ts',
+      use: {
+        baseURL,
+      },
+      webServer: {
+        command: 'npm start -- --no-open',
+        url: webServerUrl,
+        reuseExistingServer: !!!process.env.CI,
+        // Max time to wait for dev server to start before aborting, defaults to 60000 (60 seconds)
+        timeout: undefined,
+      },
     },
-    webServer: {
-      command: 'npm start -- --no-open',
-      url: webServerUrl,
-      reuseExistingServer: !!!process.env.CI,
-      // Max time to wait for dev server to start before aborting, defaults to 60000 (60 seconds)
-      timeout: undefined,
-      // Pipe the dev server output to the console
-      // Gives visibility to the developer if the dev server fails to start
-      stdout: 'pipe',
-    },
-    ...overrides,
-  };
+    overrides,
+  );
 };

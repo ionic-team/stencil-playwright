@@ -31,7 +31,9 @@ describe('createConfig', () => {
 
   it('should override the default config', async () => {
     const config = await createConfig({
-      webServerCommand: 'npm start -- --no-open --port 4444',
+      webServer: {
+        command: 'npm start -- --no-open --port 4444',
+      },
       testDir: 'tests/e2e',
     });
 
