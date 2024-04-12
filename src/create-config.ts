@@ -4,6 +4,13 @@ import merge from 'lodash.merge';
 import { loadConfigMeta } from './load-config-meta';
 import { ProcessConstants } from './process-constants';
 
+// Recursively apply the `Partial` type to all nested object types in the provided generic type
+type DeepPartial<T> = T extends object
+  ? {
+      [P in keyof T]?: DeepPartial<T[P]>;
+    }
+  : T;
+
 /**
  * Helper function to easily create a Playwright config for Stencil projects. This function will
  * automatically load the Stencil config meta to set default values for the Playwright config respecting the
@@ -13,7 +20,7 @@ import { ProcessConstants } from './process-constants';
  * @param overrides Values to override in the default config. Any Playwright config option can be overridden.
  * @returns A {@link PlaywrightTestConfig} object
  */
-export const createConfig = async (overrides?: Partial<PlaywrightTestConfig>): Promise<PlaywrightTestConfig> => {
+export const createConfig = async (overrides?: DeepPartial<PlaywrightTestConfig>): Promise<PlaywrightTestConfig> => {
   const { webServerUrl, baseURL, stencilEntryPath, stencilNamespace } = await loadConfigMeta();
 
   // Set the Stencil namespace and entry path as environment variables so we can use them when constructing
@@ -37,5 +44,5 @@ export const createConfig = async (overrides?: Partial<PlaywrightTestConfig>): P
       },
     },
     overrides,
-  );
+  ) as PlaywrightTestConfig;
 };

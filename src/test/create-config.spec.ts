@@ -32,7 +32,7 @@ describe('createConfig', () => {
   it('should override the default config', async () => {
     const config = await createConfig({
       webServer: {
-        command: 'npm start -- --no-open --port 4444',
+        port: 4444,
       },
       testDir: 'tests/e2e',
     });
@@ -44,10 +44,11 @@ describe('createConfig', () => {
         baseURL: 'http://localhost:3333',
       },
       webServer: {
-        command: 'npm start -- --no-open --port 4444',
+        command: 'npm start -- --no-open',
         url: 'http://localhost:3333/ping',
         reuseExistingServer: !process.env.CI,
         timeout: undefined,
+        port: 4444,
         stdout: 'pipe',
       },
     });
