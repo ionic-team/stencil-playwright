@@ -20,7 +20,7 @@ describe('createStencilPlaywrightConfig', () => {
         baseURL: 'http://localhost:3333',
       },
       webServer: {
-        command: 'npm start -- --no-open',
+        command: 'stencil build --dev --watch --serve --no-open',
         url: 'http://localhost:3333/ping',
         reuseExistingServer: !process.env.CI,
         timeout: undefined,

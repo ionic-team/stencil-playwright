@@ -54,7 +54,7 @@ export const createStencilPlaywrightConfig = async (
       baseURL,
     },
     webServer: {
-      command: overrides?.webServerCommand ?? 'npm start -- --no-open',
+      command: overrides?.webServerCommand ?? 'stencil build --dev --watch --serve --no-open',
       url: webServerUrl,
       reuseExistingServer: !!!process.env.CI,
       // Max time to wait for dev server to start before aborting, defaults to 60000 (60 seconds)
