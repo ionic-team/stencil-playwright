@@ -53,7 +53,6 @@
     "@stencil/core": "^4.13.0",
     "@types/eslint": "^8.56.2",
     "@types/jest": "^29.5.12",
-    "@types/lodash.merge": "^4.6.9",
     "@types/node": "^20.11.19",
     "@typescript-eslint/eslint-plugin": "^7.0.2",
     "@typescript-eslint/parser": "^7.0.2",
@@ -72,7 +71,7 @@
   },
   "prettier": "@ionic/prettier-config",
   "dependencies": {
-    "glob": "^10.3.10",
-    "lodash.merge": "^4.6.2"
+    "deepmerge": "^4.3.1",
+    "glob": "^10.3.10"
   }
 }

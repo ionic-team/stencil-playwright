@@ -1,5 +1,5 @@
 import { PlaywrightTestConfig } from '@playwright/test';
-import merge from 'lodash.merge';
+import merge from 'deepmerge';
 
 import { loadConfigMeta } from './load-config-meta';
 import { ProcessConstants } from './process-constants';
@@ -20,7 +20,9 @@ type DeepPartial<T> = T extends object
  * @param overrides Values to override in the default config. Any Playwright config option can be overridden.
  * @returns A {@link PlaywrightTestConfig} object
  */
-export const createConfig = async (overrides?: DeepPartial<PlaywrightTestConfig>): Promise<PlaywrightTestConfig> => {
+export const createConfig = async (
+  overrides: DeepPartial<PlaywrightTestConfig> = {},
+): Promise<PlaywrightTestConfig> => {
   const { webServerUrl, baseURL, stencilEntryPath, stencilNamespace } = await loadConfigMeta();
 
   // Set the Stencil namespace and entry path as environment variables so we can use them when constructing
@@ -29,7 +31,7 @@ export const createConfig = async (overrides?: DeepPartial<PlaywrightTestConfig>
   process.env[ProcessConstants.STENCIL_NAMESPACE] = stencilNamespace;
   process.env[ProcessConstants.STENCIL_ENTRY_PATH] = stencilEntryPath;
 
-  return merge(
+  return merge<DeepPartial<PlaywrightTestConfig>>(
     {
       testMatch: '*.e2e.ts',
       use: {
