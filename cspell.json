@@ -1,4 +1,15 @@
 {
-  "ignorePaths": ["**/node_modules/**", "**/third-party/**"],
-  "words": ["appload", "domcontentloaded", "networkidle", "outfile", "tada", "upvote"]
+  "ignorePaths": [
+    "**/node_modules/**",
+    "**/third-party/**"
+  ],
+  "words": [
+    "appload",
+    "deepmerge",
+    "domcontentloaded",
+    "networkidle",
+    "outfile",
+    "tada",
+    "upvote"
+  ]
 }

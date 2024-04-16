@@ -10,3 +10,4 @@ This is a list of all breaking changes introduced in the Stencil Playwright adap
 ### v0.2.0
 
 - `createStencilPlaywrightConfig` renamed to `createConfig`
+- `createConfig` uses a deep merge to combine default config values with overrides
