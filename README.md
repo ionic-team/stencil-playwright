@@ -31,26 +31,26 @@ For full documentation, please see the [Playwright testing docs on the official 
    // playwright.config.ts
 
    import { expect } from '@playwright/test';
-   import { matchers, createStencilPlaywrightConfig } from '@stencil/playwright';
+   import { matchers, createConfig } from '@stencil/playwright';
 
    expect.extend(matchers);
 
-   export default createStencilPlaywrightConfig();
+   export default createConfig();
    ```
 
 1. At this point, any tests can be executed using `npx playwright test` (or by updating the project's test command in the `package.json`). By default, Playwright's test matcher
    is configured to run all tests matching the pattern `*.e2e.ts`. This can be changed by overriding the default matcher using the
-   [`createStencilPlaywrightConfig()` function](#createstencilplaywrightconfigoverrides-createstencilplaywrightconfigoptions-promiseplaywrighttestconfig):
+   [`createConfig()` function](#createconfigoverrides-createstencilplaywrightconfigoptions-promiseplaywrighttestconfig):
 
    ```ts
    // playwright.config.ts
 
    import { expect } from '@playwright/test';
-   import { matchers, createStencilPlaywrightConfig } from '@stencil/playwright';
+   import { matchers, createConfig } from '@stencil/playwright';
 
    expect.extend(matchers);
 
-   export default createStencilPlaywrightConfig({
+   export default createConfig({
      // Change which test files Playwright will execute
      testMatch: '*.spec.ts',
      // Any other Playwright config option can also be overridden
@@ -122,7 +122,7 @@ test.describe('my-component', () => {
 
 ## API
 
-### `createStencilPlaywrightConfig(overrides?: CreateStencilPlaywrightConfigOptions): Promise<PlaywrightTestConfig>`
+### `createConfig(overrides?: CreateStencilPlaywrightConfigOptions): Promise<PlaywrightTestConfig>`
 
 Returns a [Playwright test configuration](https://playwright.dev/docs/test-configuration#introduction).
 
@@ -136,11 +136,11 @@ as some options to override specific values in the config options related to the
 // playwright.config.ts
 
 import { expect } from '@playwright/test';
-import { matchers, createStencilPlaywrightConfig } from '@stencil/playwright';
+import { matchers, createConfig } from '@stencil/playwright';
 
 expect.extend(matchers);
 
-export default createStencilPlaywrightConfig({
+export default createConfig({
   // Change which test files Playwright will execute
   testMatch: '*.spec.ts',
 

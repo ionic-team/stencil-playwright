@@ -32,7 +32,7 @@ type CustomFixtures = {
  */
 async function extendPageFixture(page: E2EPage) {
   // Make sure the Stencil namespace and entry path are set on the process so we can use them in the `setContent` tests.
-  // These wouldn't be set if the user didn't setup the Playwright config with the `createStencilPlaywrightConfig()` helper.
+  // These wouldn't be set if the user didn't setup the Playwright config with the `createConfig()` helper.
   if (!process.env[ProcessConstants.STENCIL_NAMESPACE] || !process.env[ProcessConstants.STENCIL_ENTRY_PATH]) {
     const { stencilNamespace, stencilEntryPath } = await loadConfigMeta();
 
