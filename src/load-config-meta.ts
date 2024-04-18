@@ -1,7 +1,7 @@
 import { loadConfig } from '@stencil/core/compiler';
 import { OutputTargetWww } from '@stencil/core/internal';
+import { findUp } from 'find-up';
 import { existsSync } from 'fs';
-import { globSync } from 'glob';
 import { relative } from 'path';
 
 const DEFAULT_NAMESPACE = 'app';
@@ -24,14 +24,9 @@ export const loadConfigMeta = async () => {
   let stencilNamespace = DEFAULT_NAMESPACE;
   let stencilEntryPath = DEFAULT_STENCIL_ENTRY_PATH;
 
-  // Stencil config and Playwright config should always live next to each other, so we
-  // can assume the Stencil config lives in the same directory as the current process' execution context.
-  //
-  // From what I can tell, Playwright's CLI does not allow you to pass a path to a config, so no concerns with being in the right
-  // directory when executing tests.
-  //
-  // Use a glob pattern so we can account for both .ts and .js config files
-  const stencilConfigPath = globSync(`${process.cwd()}/stencil.config.{ts,js}`)?.[0];
+  // Find the Stencil config file in either the current directory, or the nearest ancestor directory.
+  // This allows for the Playwright config to exist in a different directory than the Stencil config.
+  const stencilConfigPath = await findUp(['stencil.config.ts', 'stencil.config.js']);
 
   // Only load the Stencil config if the user has created one
   if (stencilConfigPath && existsSync(stencilConfigPath)) {
@@ -63,8 +58,8 @@ export const loadConfigMeta = async () => {
     stencilNamespace = fsNamespace;
   } else {
     const msg = stencilConfigPath
-      ? `Unable to find your project's Stencil configuration file, starting from '${stencilConfigPath}'. Falling back to defaults`
-      : `No Stencil config file was found using the glob '${process.cwd()}/stencil.config.{ts,js}'`;
+      ? `Unable to find your project's Stencil configuration file, starting from '${stencilConfigPath}'. Falling back to defaults.`
+      : `No Stencil config file was found matching the glob 'stencil.config.{ts,js}' in the current or parent directories. Falling back to defaults.`;
 
     console.warn(msg);
   }

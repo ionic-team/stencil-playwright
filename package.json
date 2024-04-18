@@ -72,6 +72,6 @@
   "prettier": "@ionic/prettier-config",
   "dependencies": {
     "deepmerge": "^4.3.1",
-    "glob": "^10.3.10"
+    "find-up": "^7.0.0"
   }
 }
