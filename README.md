@@ -8,54 +8,89 @@
 Stencil Playwright is a testing adapter package that allows developers to easily use the [Playwright testing framework](https://playwright.dev/docs/intro)
 in their Stencil project.
 
-For full documentation, please see the [Playwright testing docs on the official Stencil site](https://stenciljs.com/docs/next/testing/playwright/overview).
+For full documentation, please see the [Playwright testing docs on the official Stencil site](https://stenciljs.com/docs/testing/playwright/overview).
 
 ## Getting Started
 
-1. Install the necessary packages using your preferred package manager:
+1. Install the necessary dependencies:
 
    ```bash
    npm i @stencil/playwright @playwright/test --save-dev
    ```
 
-1. Install Playwright's browser binaries:
+1. Install the Playwright browser binaries:
 
    ```bash
    npx playwright install
    ```
 
-1. Create a `playwright.config.ts` file. The `@stencil/playwright` package offers a utility function to quickly create a default configuration that should
-   work for most Stencil projects:
+1. Create a Playwright config at the root of your Stencil project:
 
    ```ts
-   // playwright.config.ts
-
    import { expect } from '@playwright/test';
    import { matchers, createConfig } from '@stencil/playwright';
 
-   expect.extend(matchers);
-
-   export default createConfig();
-   ```
-
-1. At this point, any tests can be executed using `npx playwright test` (or by updating the project's test command in the `package.json`). By default, Playwright's test matcher
-   is configured to run all tests matching the pattern `*.e2e.ts`. This can be changed by overriding the default matcher using the
-   [`createConfig()` function](#createconfigoverrides-createstencilplaywrightconfigoptions-promiseplaywrighttestconfig):
-
-   ```ts
-   // playwright.config.ts
-
-   import { expect } from '@playwright/test';
-   import { matchers, createConfig } from '@stencil/playwright';
-
+   // Add custom Stencil matchers to Playwright assertions
    expect.extend(matchers);
 
    export default createConfig({
-     // Change which test files Playwright will execute
-     testMatch: '*.spec.ts',
-     // Any other Playwright config option can also be overridden
+     // Overwrite Playwright config options here
    });
    ```
+
+   The `createConfig()` function is a utility that will create a default Playwright configuration based on your project's Stencil config. Read
+   more about how to use this utility in the [API section](#createconfigoverrides-playwrighttestconfig-promiseplaywrighttestconfig).
+
+   > [!NOTE]
+   > For `createConfig()` to work correctly, your Stencil config must be named either `stencil.config.ts` or `stencil.config.js`.
+
+1. update your project's `tsconfig.json` to add the `ESNext.Disposable` option to the `lib` array:
+
+   ```ts title="tsconfig.json"
+   {
+     lib: [
+       ...,
+       "ESNext.Disposable"
+     ],
+     ...
+   }
+   ```
+
+   > [!NOTE]
+   > This will resolve a build error related to `Symbol.asyncDispose`. If this is not added, tests may fail to run since the Stencil dev server will be unable
+   > to start due to the build error.
+
+1. Ensure the Stencil project has a [`www` output target](https://stenciljs.com/docs/www). Playwright relies on pre-compiled output running in a dev server
+   to run tests against. When using the `createConfig()` helper, a configuration for the dev server will be automatically created based on
+   the Stencil project's `www` output target config and [dev server config](https://stenciljs.com/docs/dev-server). If no `www` output target is specified,
+   tests will not be able to run.
+
+1. Add the `copy` option to the `www` output target config:
+
+   ```ts title="stencil.config.ts"
+   {
+      type: 'www',
+      serviceWorker: null,
+      copy: [{ src: '**/*.html' }, { src: '**/*.css' }]
+   }
+   ```
+
+   This will clone all HTML and CSS files to the `www` output directory so they can be served by the dev server. If you put all testing related
+   files in specific directory(s), you can update the `copy` task glob patterns to only copy those files:
+
+   ```ts title="stencil.config.ts"
+   {
+      type: 'www',
+      serviceWorker: null,
+      copy: [{ src: '**/test/*.html' }, { src: '**/test/*.css' }]
+   }
+   ```
+
+   > [!NOTE]
+   > If the `copy` property is not set, you will not be able to use the `page.goto` testing pattern!
+
+1. Test away! Check out the [e2e testing page on the Stencil docs](https://stenciljs.com/docs/testing/playwright/e2e-testing) for more help
+   getting started writing tests.
 
 ## Testing Patterns
 
@@ -122,19 +157,14 @@ test.describe('my-component', () => {
 
 ## API
 
-### `createConfig(overrides?: CreateStencilPlaywrightConfigOptions): Promise<PlaywrightTestConfig>`
+### `createConfig(overrides?: PlaywrightTestConfig): Promise<PlaywrightTestConfig>`
 
 Returns a [Playwright test configuration](https://playwright.dev/docs/test-configuration#introduction).
 
-`overrides`, as the name implies, will overwrite the default configuration value(s) if supplied. These values can include any valid Playwright config option as well
-as some options to override specific values in the config options related to the Stencil integration:
-
-- `webServerCommand`: This can be specified to change the command that will run to start the Stencil dev server. Defaults to `npm start -- --no-open`.
-- `webServerTimeout`: This can be specified to change the amount of time Playwright will wait for the dev server to start. Defaults to 60 seconds.
+`overrides`, as the name implies, will overwrite the default configuration value(s) if supplied. These values can include any valid Playwright config option. Changing
+option values in a nested object will use a "deep merge" to combine the default and overridden values. So, creating a config like the following:
 
 ```ts
-// playwright.config.ts
-
 import { expect } from '@playwright/test';
 import { matchers, createConfig } from '@stencil/playwright';
 
@@ -144,9 +174,29 @@ export default createConfig({
   // Change which test files Playwright will execute
   testMatch: '*.spec.ts',
 
-  // Only wait max 30 seconds for server to start
-  webServerTimeout: 30000,
+  webServer: {
+    // Only wait max 30 seconds for server to start
+    timeout: 30000,
+  },
 });
+```
+
+Will result in:
+
+```ts
+{
+  testMatch: '*.spec.ts',
+  use: {
+    baseURL: 'http://localhost:3333',
+  },
+  webServer: {
+    command: 'stencil build --dev --watch --serve --no-open',
+    url: 'http://localhost:3333/ping',
+    reuseExistingServer: !process.env.CI,
+    // Only timeout gets overridden, not the entire object
+    timeout: 30000,
+  },
+}
 ```
 
 ### `test`
