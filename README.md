@@ -14,7 +14,7 @@ For full documentation, please see the [Playwright testing docs on the official 
 
 1. Install the necessary dependencies:
 
-   ```bash npm2yarn
+   ```bash
    npm i @stencil/playwright @playwright/test --save-dev
    ```
 
@@ -38,7 +38,7 @@ For full documentation, please see the [Playwright testing docs on the official 
    });
    ```
 
-   The `createConfig()` is a utility that will create a default Playwright configuration based on your project's Stencil config. Read
+   The `createConfig()` function is a utility that will create a default Playwright configuration based on your project's Stencil config. Read
    more about how to use this utility in the [API section](#createconfigoverrides-playwrighttestconfig-promiseplaywrighttestconfig).
 
    > [!NOTE]
