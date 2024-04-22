@@ -41,6 +41,9 @@ For full documentation, please see the [Playwright testing docs on the official 
    The `createConfig()` is a utility that will create a default Playwright configuration based on your project's Stencil config. Read
    more about how to use this utility in the [API section](#createconfigoverrides-playwrighttestconfig-promiseplaywrighttestconfig).
 
+   > [!NOTE]
+   > For `createConfig()` to work correctly, your Stencil config must be named either `stencil.config.ts` or `stencil.config.js`.
+
 1. update your project's `tsconfig.json` to add the `ESNext.Disposable` option to the `lib` array:
 
    ```ts title="tsconfig.json"
@@ -53,10 +56,9 @@ For full documentation, please see the [Playwright testing docs on the official 
    }
    ```
 
-   :::note
-   This will resolve a build error related to `Symbol.asyncDispose`. If this is not added, tests may fail to run since the Stencil dev server will be unable
-   to start due to the build error.
-   :::
+   > [!NOTE]
+   > This will resolve a build error related to `Symbol.asyncDispose`. If this is not added, tests may fail to run since the Stencil dev server will be unable
+   > to start due to the build error.
 
 1. Ensure the Stencil project has a [`www` output target](https://stenciljs.com/docs/www). Playwright relies on pre-compiled output running in a dev server
    to run tests against. When using the `createConfig()` helper, a configuration for the dev server will be automatically created based on
@@ -84,9 +86,8 @@ For full documentation, please see the [Playwright testing docs on the official 
    }
    ```
 
-   :::note
-   If the `copy` property is not set, you will not be able to use the `page.goto` testing pattern!
-   :::
+   > [!NOTE]
+   > If the `copy` property is not set, you will not be able to use the `page.goto` testing pattern!
 
 1. Test away! Check out the [e2e testing page on the Stencil docs](https://stenciljs.com/docs/testing/playwright/e2e-testing) for more help
    getting started writing tests.
