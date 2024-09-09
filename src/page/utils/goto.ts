@@ -16,7 +16,7 @@ export const goto = async (page: Page, url: string, originalFn: typeof page.goto
       // They tested this number and found it to be a reliable timeout for the Stencil components to be hydrated.
       timeout: 4750,
     }),
-    originalFn(url.split('?')[0], options),
+    originalFn(url, options),
   ]);
 
   return result[1];
