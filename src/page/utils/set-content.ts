@@ -28,6 +28,12 @@ export const setContent = async (page: Page, html: string, testInfo: TestInfo, o
   const headContent = headMatch ? headMatch[1] : '';
   const bodyContent = bodyMatch ? bodyMatch[1] : html;
 
+  // A `standalone` auto-loader is one module (its entry path is the full file name);
+  // the lazy loader has a module build and a legacy `nomodule` one.
+  const entryScripts = baseEntryPath?.endsWith('.js')
+    ? `<script type="module" src="${baseEntryPath}"></script>`
+    : `<script type="module" src="${baseEntryPath}.esm.js"></script>`;
+
   const output = `
     <!DOCTYPE html>
     <html lang="en">
@@ -36,8 +42,7 @@ export const setContent = async (page: Page, html: string, testInfo: TestInfo, o
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0" />
         ${headContent}
-        <script src="${baseEntryPath}.js" nomodule></script>
-        <script type="module" src="${baseEntryPath}.esm.js"></script>
+        ${entryScripts}
       </head>
       <body>
         ${bodyContent}

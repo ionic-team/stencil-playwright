@@ -13,15 +13,16 @@ async function fileExists(path: string): Promise<boolean> {
 }
 
 /**
- * Checks for a "www" or "loader-bundle" output target.
+ * Checks for an output target the tests can load components from.
  * @param config The resolved Stencil project config.
- * @returns Whether a "www" and/or "loader-bundle" output target is present.
+ * @returns Whether a "www", "loader-bundle", and/or "standalone" output target is present.
  */
 function detectOutputTargets(config: ProjectConfig) {
   const outputs = config.outputTargets as ReadonlyArray<{ type: string }>;
   const www = outputs.some((o) => o.type === 'www');
   const loaderBundle = outputs.some((o) => o.type === 'loader-bundle');
-  return { www, loaderBundle };
+  const standalone = outputs.some((o) => o.type === 'standalone');
+  return { www, loaderBundle, standalone };
 }
 
 const PLAYWRIGHT_CONFIG_TEMPLATE = `import { expect } from '@playwright/test';
@@ -79,9 +80,10 @@ async function ensureDisposableLib(rootDir: string): Promise<void> {
  */
 async function ensureOutputTarget(context: WizardContext): Promise<void> {
   const { config, prompts } = context;
-  const { www, loaderBundle } = detectOutputTargets(config);
+  const { www, loaderBundle, standalone } = detectOutputTargets(config);
 
-  if (www || loaderBundle) return;
+  // A standalone-only project builds `standalone` in dev too, and its auto-loader is enough to test against.
+  if (www || loaderBundle || standalone) return;
 
   const stencilConfigPath = join(config.rootDir, 'stencil.config.ts');
   if (!(await fileExists(stencilConfigPath))) {
@@ -90,19 +92,19 @@ async function ensureOutputTarget(context: WizardContext): Promise<void> {
     return;
   }
 
-  const addWww = await prompts.confirm({
-    message: 'No "www" or "loader-bundle" output target found. Add a "www" output target now?',
+  const addLoaderBundle = await prompts.confirm({
+    message: 'No "www", "loader-bundle", or "standalone" output target found. Add a "loader-bundle" output target now?',
     initialValue: true,
   });
-  if (!prompts.isCancel(addWww) && addWww) {
+  if (!prompts.isCancel(addLoaderBundle) && addLoaderBundle) {
     const editor = await context.openStencilConfig();
-    editor.addOutputTarget("{ type: 'www', serviceWorker: null }");
+    editor.addOutputTarget("{ type: 'loader-bundle' }");
     await editor.save();
     return;
   }
 
   prompts.log.warn(
-    'No "www" or "loader-bundle" output target configured - Playwright tests may not have anything to run against.',
+    'No "www", "loader-bundle", or "standalone" output target configured - Playwright tests may not have anything to run against.',
   );
 }
 
