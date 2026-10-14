@@ -1,5 +1,5 @@
 // @ts-ignore - position of type import changed in Stencil 5
-import { loadConfig, OutputTargetLoaderBundle,OutputTargetStandalone, OutputTargetWww } from '@stencil/core/compiler';
+import { loadConfig, OutputTargetLoaderBundle, OutputTargetStandalone, OutputTargetWww } from '@stencil/core/compiler';
 import { findUp } from 'find-up';
 import { isAbsolute, join, relative } from 'path';
 
