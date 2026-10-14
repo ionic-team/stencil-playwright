@@ -12,7 +12,7 @@ const stencilConfig: {
     pingRoute: string;
     root: string;
   };
-  outputTargets: Array<{ type: string; dir: string; buildDir?: string }>;
+  outputTargets: Array<{ type: string; dir: string; buildDir?: string; autoLoader?: unknown }>;
 } = {
   rootDir: '/mock-path',
   fsNamespace: 'mock-namespace',
@@ -123,7 +123,7 @@ describe('loadConfigMeta', () => {
     const configMeta = await loadConfigMeta();
 
     expect(consoleWarnSpy).toHaveBeenCalledWith(
-      `No "www", "dist", or "loader-bundle" output target found in the Stencil config. Using default entry path: "./build/mock-namespace". Tests using 'setContent' may fail to execute.`,
+      `No "www", "dist", "loader-bundle", or auto-loading "standalone" output target found in the Stencil config. Using default entry path: "./build/mock-namespace". Tests using 'setContent' may fail to execute.`,
     );
     expect(configMeta).toEqual({
       baseURL: 'http://localhost:4444',
@@ -189,6 +189,51 @@ describe('loadConfigMeta', () => {
       stencilNamespace: 'mock-namespace',
       webServerUrl: 'http://localhost:4444/status',
     });
+  });
+
+  it('should fall back to the standalone auto-loader when it is the only usable target', async () => {
+    stencilConfig.outputTargets = [
+      {
+        type: 'standalone',
+        dir: '/mock-path/dist/standalone',
+        autoLoader: { fileName: 'loader', autoStart: true },
+      },
+    ];
+    findUpMock.mockResolvedValueOnce('/mock-path/stencil.config.ts');
+
+    const configMeta = await loadConfigMeta();
+
+    expect(configMeta).toEqual({
+      baseURL: 'http://localhost:4444',
+      stencilEntryPath: './dist/standalone/loader.js',
+      stencilNamespace: 'mock-namespace',
+      webServerUrl: 'http://localhost:4444/status',
+    });
+  });
+
+  it('should prefer loader-bundle over standalone', async () => {
+    stencilConfig.outputTargets = [
+      { type: 'standalone', dir: '/mock-path/dist/standalone', autoLoader: { fileName: 'loader', autoStart: true } },
+      { type: 'loader-bundle', dir: '/mock-path/dist/loader-bundle' },
+    ];
+    findUpMock.mockResolvedValueOnce('/mock-path/stencil.config.ts');
+
+    const configMeta = await loadConfigMeta();
+
+    expect(configMeta.stencilEntryPath).toBe('./dist/loader-bundle/mock-namespace/mock-namespace');
+  });
+
+  it('should not use a standalone target whose auto-loader is off or does not start on import', async () => {
+    const consoleWarnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+    for (const autoLoader of [false, { fileName: 'loader', autoStart: false }]) {
+      stencilConfig.outputTargets = [{ type: 'standalone', dir: '/mock-path/dist/standalone', autoLoader }];
+      findUpMock.mockResolvedValueOnce('/mock-path/stencil.config.ts');
+
+      const configMeta = await loadConfigMeta();
+
+      expect(configMeta.stencilEntryPath).toBe('./build/mock-namespace');
+    }
+    expect(consoleWarnSpy).toHaveBeenCalledTimes(2);
   });
 
   it('should prefer www target over dist and loader-bundle', async () => {

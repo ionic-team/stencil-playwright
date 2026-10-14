@@ -155,7 +155,7 @@ describe('wizard.init.run', () => {
     expect(ctx.openStencilConfig).not.toHaveBeenCalled();
   });
 
-  it('offers to add a www output target when stencil.config.ts exists and none is configured', async () => {
+  it('offers to add a loader-bundle output target when stencil.config.ts exists and none is configured', async () => {
     writeFileSync(join(tmpDir, 'stencil.config.ts'), 'export const config = {};\n');
     const ctx = makeInitCtx(tmpDir, []);
     const editor = { addOutputTarget: vi.fn(), save: vi.fn().mockResolvedValue(undefined) };
@@ -164,7 +164,7 @@ describe('wizard.init.run', () => {
 
     await wizard.init!.run(ctx as any);
 
-    expect(editor.addOutputTarget).toHaveBeenCalledWith(expect.stringContaining("type: 'www'"));
+    expect(editor.addOutputTarget).toHaveBeenCalledWith("{ type: 'loader-bundle' }");
     expect(editor.save).toHaveBeenCalled();
   });
 
@@ -177,8 +177,19 @@ describe('wizard.init.run', () => {
 
     expect(ctx.openStencilConfig).not.toHaveBeenCalled();
     expect(ctx.prompts.log.warn).toHaveBeenCalledWith(
-      expect.stringContaining('No "www" or "loader-bundle" output target configured'),
+      expect.stringContaining('No "www", "loader-bundle", or "standalone" output target configured'),
     );
+  });
+
+  it('does not prompt or warn when only a "standalone" output target is configured', async () => {
+    writeFileSync(join(tmpDir, 'stencil.config.ts'), 'export const config = {};\n');
+    const ctx = makeInitCtx(tmpDir, [{ type: 'standalone' }]);
+
+    await wizard.init!.run(ctx as any);
+
+    expect(ctx.prompts.confirm).not.toHaveBeenCalled();
+    expect(ctx.openStencilConfig).not.toHaveBeenCalled();
+    expect(ctx.prompts.log.warn).not.toHaveBeenCalled();
   });
 
   it('does not warn when a "www" output target is already configured', async () => {
